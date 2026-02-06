@@ -1,0 +1,1028 @@
+{
+  "name": "Alerta temprana de riesgo financiero( Prototipo)",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -512,
+        -64
+      ],
+      "id": "9dac9d16-4617-4506-8e93-b920d80236e1",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://dolarapi.com/v1/dolares",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -304,
+        -208
+      ],
+      "id": "4993273b-c576-491d-99a2-f9a296c6f5de",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3a52005e-45b0-442f-a85a-58028b4ef66e",
+              "leftValue": "={{ $json.casa }}",
+              "rightValue": "=oficial",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -128,
+        -208
+      ],
+      "id": "a03baf8c-0069-4cbd-8def-0948b248f931",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5d20701d-6358-470e-a663-7793292f1e64",
+              "name": "=dolar_oficial_venta",
+              "value": "={{$json.venta}}",
+              "type": "string"
+            },
+            {
+              "id": "f819beac-0dce-44f4-b750-7087df6952f9",
+              "name": "fecha",
+              "value": "={{$json.fechaActualizacion}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        80,
+        -432
+      ],
+      "id": "cd03e648-6423-4397-9ef0-d7d6d08fd005",
+      "name": "dolar limpio"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cc77366d-9ed5-497c-8803-3d327e4d13de",
+              "name": "riesgo_dolar",
+              "value": "BAJO",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        -192
+      ],
+      "id": "ca696efb-e96f-4581-984f-5649b0a11825",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d690c616-7a37-40cc-9007-fc2cc1c1e18f",
+              "name": "riesgo_dolar",
+              "value": "ALTO",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        -592
+      ],
+      "id": "8a53bb9a-0dc0-471b-bdf8-84e16aafe8a8",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2c3fbf1a-4fd9-44f1-ab66-fb54004af48c",
+              "name": "riesgo_dolar",
+              "value": "MEDIO",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        -400
+      ],
+      "id": "0a99c1a5-a1cb-4811-ac2b-d8e41d355ca3",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4d3af774-3c96-4d79-8761-58f17bf320da",
+              "name": "riesgo_dolar",
+              "value": "={{ $json.riesgo_dolar }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        912,
+        -400
+      ],
+      "id": "f371d510-7df6-4f27-be62-9c522b2aa55a",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "url": "https://api.argentinadatos.com/v1/finanzas/indices/inflacion",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -304,
+        96
+      ],
+      "id": "39fb939b-e7b3-4b3d-b01b-eabcc480cc2f",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "efb1ac52-a530-4582-83ba-acfe67bf9db3",
+              "name": "=fecha",
+              "value": "={{ $json.fecha }}",
+              "type": "string"
+            },
+            {
+              "id": "f768b462-2a59-42a0-8cac-51c50d911a22",
+              "name": "valor",
+              "value": "={{ $json.valor }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        144,
+        96
+      ],
+      "id": "0694c0f8-3bdd-4b77-b03e-3a79d52e13f8",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d2c30177-2aca-4b63-a0c5-8b13a722b744",
+              "name": "riesgo_inflacion",
+              "value": "ALTO",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        32
+      ],
+      "id": "44162a61-c040-4a86-a1f0-1b3c7219433b",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "94ff9fe4-92c2-4fce-8d6e-1ce480f96608",
+              "name": "riesgo_inflacion",
+              "value": "MEDIO",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        224
+      ],
+      "id": "5d20ab4c-a23b-4b1c-9c56-4573b2b9a3d9",
+      "name": "Edit Fields6"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "278d70f5-399e-420b-a778-a4102250b2a8",
+              "name": "riesgo_inflacion",
+              "value": "BAJO",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        416
+      ],
+      "id": "639c7b92-6455-4b42-bb68-73effa515bcc",
+      "name": "Edit Fields7"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0ea28428-fb0b-48f2-a8d1-011759601d60",
+              "name": "riesgo_inflacion",
+              "value": "={{$json.riesgo_inflacion}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        224
+      ],
+      "id": "03389a26-b2ea-4a88-8c2a-60dc97762a09",
+      "name": "Edit Fields8"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "fecha",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        96
+      ],
+      "id": "32cbd2f5-2ef5-4ae5-bf04-cf8f5ef6779a",
+      "name": "BUSQUEDA"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1c8af17f-8594-4089-bcd9-bc7256c86a32",
+              "leftValue": "={{$json.dolar_oficial_venta}}",
+              "rightValue": 1200,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        288,
+        -432
+      ],
+      "id": "39dd3508-1a1e-4d28-b369-0cfa16cbdd22",
+      "name": "Dolar Alto"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6408f45a-f938-4582-b61c-e2d9253eb0c6",
+              "leftValue": "={{$json.dolar_oficial_venta}}",
+              "rightValue": 1000,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        480,
+        -304
+      ],
+      "id": "f8df7116-f3a7-48f2-9abb-fe9d630c46ab",
+      "name": "Dolar Medio"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1eaa0f4e-251b-436f-8dcd-6a4341cf4589",
+              "leftValue": "={{ $json.valor }}",
+              "rightValue": "=7",
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        288,
+        96
+      ],
+      "id": "1440eda8-38ad-4dd2-8882-2aebc81280a4",
+      "name": "Inf Alto"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b4365537-551f-4620-b856-49380c0edec9",
+              "leftValue": "={{ $json.valor }}",
+              "rightValue": 4,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        448,
+        320
+      ],
+      "id": "bf991b9b-0788-462e-90d4-fa9d6a86ec5c",
+      "name": "Inf Medio"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1120,
+        -80
+      ],
+      "id": "d4b519ed-d9d7-4414-b914-c1bd9a5020c5",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "29497696-5aa9-48af-a44e-3b559e1dc7a1",
+              "leftValue": "={{$json.riesgo_dolar}}\n\n",
+              "rightValue": "=ALTO",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "51510738-817b-4bec-b93d-1a1e8169b969",
+              "leftValue": "={{$json.riesgo_inflacion}}",
+              "rightValue": "ALTO",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1328,
+        -80
+      ],
+      "id": "18484d4e-4a3b-41f8-a42b-72827b90d6d9",
+      "name": "If1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        0,
+        96
+      ],
+      "id": "221244e5-7cbd-4d44-9e34-43289d7e310d",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "acce91f7-3cab-48a5-96f2-6f5e9f834872",
+              "name": "riesgo_financiero",
+              "value": "ALTO",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1520,
+        -256
+      ],
+      "id": "822ecd4a-ff78-4fe1-80b9-10cf4188aaff",
+      "name": "Edit Fields9"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "7b5942bf-4fa0-4e9e-be0c-85030522dd8a",
+              "leftValue": "={{ $('Edit Fields3').item.json.riesgo_dolar }}",
+              "rightValue": "MEDIO",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "475da824-fc7e-43db-8f72-e2c6badab5ba",
+              "leftValue": "={{ $('Edit Fields8').item.json.riesgo_inflacion }}",
+              "rightValue": "MEDIO",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1536,
+        16
+      ],
+      "id": "365ae896-d157-4464-9bc9-134163ef058a",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1b07dcfc-87fa-483c-91f4-fbef38820813",
+              "name": "riesgo_financiero",
+              "value": "MEDIO",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1744,
+        -80
+      ],
+      "id": "5b78e6b1-bca3-48c0-9e0e-aa46967016b0",
+      "name": "Edit Fields10"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "864c088f-178b-41ec-8343-fd529dbb417b",
+              "name": "riesgo_financiero",
+              "value": "BAJO",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1744,
+        112
+      ],
+      "id": "52a6df20-8ead-464a-89b8-967d74b4fbab",
+      "name": "Edit Fields11"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "76f8c479-3224-4423-8f9e-de6d75a56d0a",
+              "name": "riesgo_financiero",
+              "value": "={{ $json.riesgo_financiero }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2064,
+        -80
+      ],
+      "id": "c9149ed2-7d21-4099-8c71-c1a08473e99d",
+      "name": "Edit Fields12"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "dolar limpio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dolar limpio": {
+      "main": [
+        [
+          {
+            "node": "Dolar Alto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "BUSQUEDA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "Inf Alto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields7": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BUSQUEDA": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dolar Alto": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Dolar Medio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dolar Medio": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inf Alto": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Inf Medio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inf Medio": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields8": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields9",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields10",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields9": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields10": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields11": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "066fcc6c-ab0e-493e-9043-98822a53d39f",
+  "meta": {
+    "instanceId": "5276a58fad6e1fe1de776c5a30fd95b7ee06edae312369a802420312467f91ca"
+  },
+  "id": "WVFwBKCYV-pryT17CMTgK",
+  "tags": []
+}
